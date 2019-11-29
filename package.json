@@ -1,0 +1,14 @@
+{
+    "name": "field-authentication-manager",
+    "version": "1.0.6",
+    "description": "Authenticate request as per applied validators.",
+    "main": "field-authentication-manager.js",
+    "scripts": {
+        "start": "node field-authentication-manager.js"
+    },
+    "author": "Sajjad Ali",
+    "license": "ISC",
+    "dependencies": {
+        "lodash": "^4.17.11"
+    }
+}
