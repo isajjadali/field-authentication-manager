@@ -76,6 +76,7 @@ module.exports = {
                           email: {
                               type: 'string',
                               isEmail: true,
+                              isOptional: true,
                           },
                       },
                   },
@@ -84,6 +85,7 @@ module.exports = {
                           type: 'string',
                       },
                   }],
+                  allowableKeys: ['key you only want in request body']
               },
           },
   }

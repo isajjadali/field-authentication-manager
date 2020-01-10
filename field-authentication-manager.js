@@ -7,10 +7,11 @@ global.famLib = `${global.famRoot}/lib`;
 global.famConfig = `${global.famRoot}/config`;
 
 
-const { filterValuesHavingEmptyString } = require(`${global.famLib}/helper`);
+const { filterValuesHavingEmptyString, removeExtraKeys } = require(`${global.famLib}/helper`);
 const { parseQuery } = require(`${global.famLib}/query-parser`);
 const { validatorsExecutor } = require(`${global.famLib}/validators-executor`);
 const { requiredFieldScrapper } = require(`${global.famLib}/field-scrapper`);
+const { cloneDeep } = require('lodash');
 
 
 /**
@@ -21,21 +22,23 @@ const { requiredFieldScrapper } = require(`${global.famLib}/field-scrapper`);
  * @param {string} config.mounthPath='/api/' Mount path of url from where url starts
  * @return {object} Object if error exist, else Returns false
  */
-function fieldAuthenticatorsRunner({ req = {}, mountPath = '/api/' }) {
-    const {
-        url, method, body, query,
-    } = req;
+function fieldAuthenticatorsRunner({ req = {}, mountPath = '/api/' } = {}) {
+    let { url, method } = req;
 
-    const requiredObject = requiredFieldScrapper({
+    let requiredObject = requiredFieldScrapper({
         url,
         mountPath,
         method: method.toLowerCase(),
     });
 
     if (requiredObject) {
+        requiredObject = cloneDeep(requiredObject);
+        req.body = removeExtraKeys(requiredObject.body, req.body);
+        req.query = removeExtraKeys(requiredObject.query, req.query);
+
         const error = validatorsExecutor(requiredObject, {
-            body: filterValuesHavingEmptyString(body),
-            query: parseQuery(filterValuesHavingEmptyString(query)),
+            body: filterValuesHavingEmptyString(req.body),
+            query: parseQuery(filterValuesHavingEmptyString(req.query)),
         });
 
         if (error) {
