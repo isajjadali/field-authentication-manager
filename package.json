@@ -1,6 +1,6 @@
 {
     "name": "field-authentication-manager",
-    "version": "1.0.8",
+    "version": "1.0.9",
     "description": "Authenticate request as per applied validators.",
     "main": "field-authentication-manager.js",
     "scripts": {
