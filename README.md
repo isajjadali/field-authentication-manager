@@ -10,6 +10,7 @@ Validators:
   * Validate given Regex pattern
   * Validate length(length, maxLength, minLength) of a field.
   * Validate value(max, min) of a field.
+  * Avoid Empty Array Validation
 ```
 
 ### Installation
@@ -79,6 +80,11 @@ module.exports = {
                               isOptional: true,
                           },
                       },
+                  },
+                  roleIds: [],
+                  addresses: {
+                      type: [],
+                      avoidEmptyArray: true,
                   },
                   skills: [{
                       name: {
