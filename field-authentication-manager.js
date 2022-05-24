@@ -23,7 +23,7 @@ const { cloneDeep } = require('lodash');
  * @return {object} Object if error exist, else Returns false
  */
 function fieldAuthenticatorsRunner({ req = {}, mountPath = '/api/' } = {}) {
-    let { url, method } = req;
+    const { url, method } = req;
 
     let requiredObject = requiredFieldScrapper({
         url,
