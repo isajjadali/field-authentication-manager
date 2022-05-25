@@ -4,12 +4,14 @@
 A module that can Authenticate a Request according to the given set of rules, e.g:
 ```
 Validators:
-  * Check the Required Fields
-  * Check the Types Of Fields
+  * Required Fields
+  * Types Of Fields
+  * Filter Allowable Keys
+  * Filter Removeable Keys 
   * Email Validation
-  * Validate given Regex pattern
-  * Validate length(length, maxLength, minLength) of a field.
-  * Validate value(max, min) of a field.
+  * Validate Given Regex Pattern
+  * Validate Min And Max Length Of A Field.
+  * Validate Min And Max Value Of A Field.
   * Avoid Empty Array Validation
 ```
 
@@ -91,13 +93,58 @@ module.exports = {
                           type: 'string',
                       },
                   }],
-                  allowableKeys: ['key you only want in request body']
+                  allowableKeys: ['key you only want in request body'],
+                  removeableKeys: ['key you don't want in request body'],
               },
           },
   }
 }
 ```
 #### **Note:** Remove text in brackets in this JS File (It is just for explanation)
+
+## A Field Must Be One Of The Following Type:
+1. number
+2. string
+3. boolean
+4. { } / [ ]
+## Triggering Keys With Thier Functionalities
+```
+isEmail => Validate Value As Email
+Example: isEmail: true
+
+isOptional => Make The Field Optional In Request
+Example: isOptional: true
+
+avoidEmptyArray => Send Error If The Array Is Empty
+Example: avoidEmptyArray: true
+
+regex => Match The Value As Per The Given Regex
+Example: regex: /^\d+$/
+
+errorMessage => Send Custom Message In Case Of Error
+Example: errorMessage: 'Must contain only digits'
+
+allowableKeys => Filter Out All Other Keys From The Request Except Mentioned In This Array
+Example: allowableKeys: ['x', 'y', 'z']
+
+removeableKeys => Filter Out The Mentioned Keys From The Request
+Example: removeableKeys: ['x']
+
+length => Check Exact Length Of Value
+Example: length: 10
+
+maxLength => Check Max Length Of Value
+Example: maxLength: 20
+
+minLength => Check Min Length Of Value
+Example: minLength: 2
+
+min => Check Min Value
+Example: min: 10
+
+max => Check Max Value
+Example: max: 100
+```
 
 ## Module for
 * [Node.js](https://nodejs.org/en/) - Backend framework
