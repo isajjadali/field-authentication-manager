@@ -7,7 +7,7 @@ global.famLib = `${global.famRoot}/lib`;
 global.famConfig = `${global.famRoot}/config`;
 
 
-const { filterValuesHavingEmptyString, removeExtraKeys } = require(`${global.famLib}/helper`);
+const { filterValuesHavingEmptyString, removeExtraKeys, isWindows } = require(`${global.famLib}/helper`);
 const { parseQuery } = require(`${global.famLib}/query-parser`);
 const { validatorsExecutor } = require(`${global.famLib}/validators-executor`);
 const { requiredFieldScrapper } = require(`${global.famLib}/field-scrapper`);
@@ -58,8 +58,16 @@ function fieldAuthenticatorsRunner({ req = {}, mountPath = '/api/' } = {}) {
  * @return {function} Function to validate the request
  */
 module.exports = function fieldAuthenticationManager({ requiredFieldDirectoryPath = 'controllers' }) {
+    let basePath = requiredFieldDirectoryPath.charAt(0) === '/'
+        ? requiredFieldDirectoryPath.substr(1)
+        : requiredFieldDirectoryPath;
+
+    if (isWindows()) {
+        basePath = `${process.cwd()}/${basePath}`
+    }
+
     /** @global */
-    global.RequiredFields = require(`${global.famLib}/required-field-json-maker`)(`${process.cwd()}/${requiredFieldDirectoryPath}`);
+    global.RequiredFields = require(`${global.famLib}/required-field-json-maker`)(basePath);
     /** @global */
     global.RegisteredValidators = require(`${global.famLib}/validators-registrator`)(global.RequiredFields);
 
