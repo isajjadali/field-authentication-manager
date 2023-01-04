@@ -151,6 +151,7 @@ module.exports = {
   }
 }
 ```
+#### **Note:** Field added in (allowableKeys and removeableKeys) will not work if you defined any rule above for that.
 #### **Note:** Remove text in brackets in this JS File (It is just for explanation)
 
 ## A Field Must Be One Of The Following Type:
