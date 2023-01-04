@@ -64,37 +64,88 @@ app.all('*', (req, res, next) => {
 module.exports = {
   'project/:projectId (route-path)': {
           put (Request-Method): {
-              body (Request Box-(body, query)): {
-                  email: {
-                      type: 'string',
-                      isEmail: true,
-                  },
-                  value: {
-                      test: {
-                          type: 'string',
-                          regex: /^\d+$/,
-                          errorMessage: 'Must contain only digits',
-                      },
-                      data: {
-                          email: {
-                              type: 'string',
-                              isEmail: true,
-                              isOptional: true,
-                          },
-                      },
-                  },
-                  roleIds: [],
-                  addresses: {
-                      type: [],
-                      avoidEmptyArray: true,
-                  },
-                  skills: [{
-                      name: {
-                          type: 'string',
-                      },
-                  }],
-                  allowableKeys: ['key you only want in request body'],
-                  removeableKeys: ['key you don't want in request body'],
+              body (Request Box - (body, query)): {
+                // Max Length
+                firstName: {
+                    type: 'string',
+                    maxLength: 12,
+                },
+                // Min Length
+                lastName: {
+                    type: 'string',
+                    minLength: 3,
+                },
+                // Exact Length
+                gender: {
+                    type: 'string',
+                    length: 1,
+                },
+                // Email
+                email: {
+                    type: 'string',
+                    isEmail: true,
+                },
+                // Regex
+                phoneNumber: {
+                    type: 'string',
+                    regex: /^(0)[0-9]{10}$/g,
+                },
+                // Number
+                age: {
+                    type: 'number',
+                },
+                //  Boolean
+                active: {
+                    type: 'boolean',
+                },
+                // Optional with avoid empty array if exist
+                roleIds: {
+                    type: 'array',
+                    avoidEmptyArray: true,
+                },
+                roles: {
+                    type: 'array',
+                    isOptional: true,
+                },
+                user: {
+                    type: 'object',
+                    value: {
+                        firstName: {
+                            type: 'string',
+                        },
+                        user: {
+                            type: 'object',
+                            value: {
+                                age: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                    },
+                },
+                emails: {
+                    type: 'array',
+                    value: {
+                        user: {
+                            type: 'object',
+                            value: {
+                                firstName: {
+                                    type: 'string',
+                                },
+                                user: {
+                                    type: 'object',
+                                    value: {
+                                        age: {
+                                            type: 'string',
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+                allowableKeys: ['key you only want in request body'],
+                removeableKeys: ['key you don't want in request body'],
               },
           },
   }
@@ -106,7 +157,8 @@ module.exports = {
 1. number
 2. string
 3. boolean
-4. { } / [ ]
+4. object 
+5. array
 ## Triggering Keys With Thier Functionalities
 ```
 isEmail => Validate Value As Email
